@@ -1,6 +1,6 @@
 export interface Payload {
   phoneNumber: string;
-  seller: boolean;
+  isActive: boolean;
   iat?: number;
   expiresIn?: string;
 }

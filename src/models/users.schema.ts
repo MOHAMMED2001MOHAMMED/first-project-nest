@@ -28,6 +28,10 @@ export const UserSchema = new mongoose.Schema(
     token: {
       type: String,
       select: false
+    },
+    role: {
+      type: String,
+      default: 'user'
     }
   },
   { timestamps: true }
@@ -52,6 +56,7 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // Sign JWT and return
+/*
 UserSchema.methods.getSignedJwtToken = async function () {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
@@ -69,4 +74,4 @@ UserSchema.methods.getSignedJwtToken = async function () {
   } else {
     return user.token;
   }
-};
+};*/

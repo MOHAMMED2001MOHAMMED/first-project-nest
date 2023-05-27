@@ -4,16 +4,22 @@ import { User } from '../types/users';
 import { InjectModel } from '@nestjs/mongoose';
 import { LoginDTO, RegisterDTO } from 'src/auth/auth.dto';
 import * as bcrypt from 'bcryptjs';
+import { Payload } from 'src/types/payload';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
   private async sanitizeUser(user: User) {
-    const token = await user.getSignedJwtToken();
+    // const token = await user.getSignedJwtToken();
     return {
       success: true,
-      token,
-      data: { _id: user._id, name: user.name, phoneNumber: user.phoneNumber }
+      //token,
+      data: {
+        _id: user._id,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        role: user.role
+      }
     };
   }
 
@@ -48,5 +54,9 @@ export class UserService {
     }
     return this.sanitizeUser(user);
     //const isMatch = await user.matchPassword(password);
+  }
+  async findByPayload(payload: Payload) {
+    const { phoneNumber } = payload;
+    return await this.userModel.findOne({ phoneNumber });
   }
 }
